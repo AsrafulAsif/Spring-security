@@ -12,8 +12,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/app-user")
 public class AppUserLoginController {
+
+    private final AppUserLoginService appUserLoginService;
+
     @Autowired
-    AppUserLoginService appUserLoginService;
+    public AppUserLoginController(AppUserLoginService appUserLoginService){
+        this.appUserLoginService = appUserLoginService;
+    }
 
     @PostMapping("/registration")
     ResponseEntity<SampleResponse>  registrationAppUser(
