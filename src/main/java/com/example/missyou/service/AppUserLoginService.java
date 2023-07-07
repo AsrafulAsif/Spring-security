@@ -11,8 +11,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AppUserLoginService {
+    private final AppUserLoginRepository appUserLoginRepository;
+
     @Autowired
-    AppUserLoginRepository appUserLoginRepository;
+    public AppUserLoginService(AppUserLoginRepository appUserLoginRepository) {
+        this.appUserLoginRepository = appUserLoginRepository;
+    }
 
     public SampleResponse saveAppUser(AppUserLoginRequest request){
         AppUser findingAppuser = appUserLoginRepository.findByUserNameAndPhoneNumber(request.getUsername(),request.getPhoneNumber());

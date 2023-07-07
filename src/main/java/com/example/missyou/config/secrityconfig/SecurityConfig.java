@@ -1,4 +1,4 @@
-package com.example.missyou.config;
+package com.example.missyou.config.secrityconfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
