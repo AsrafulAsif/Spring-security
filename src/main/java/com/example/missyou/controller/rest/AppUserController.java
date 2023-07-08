@@ -2,22 +2,23 @@ package com.example.missyou.controller.rest;
 
 import com.example.missyou.request.AppUserLoginRequest;
 import com.example.missyou.response.SampleResponse;
+import com.example.missyou.response.rest.UserResponseRest;
 import com.example.missyou.service.AppUserLoginService;
+import com.example.missyou.utils.ResponseMaking;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/api/v1/app-user")
-public class AppUserRegistrationController {
+public class AppUserController {
 
     private final AppUserLoginService appUserLoginService;
 
     @Autowired
-    public AppUserRegistrationController(AppUserLoginService appUserLoginService){
+    public AppUserController(AppUserLoginService appUserLoginService){
         this.appUserLoginService = appUserLoginService;
     }
 
@@ -26,7 +27,13 @@ public class AppUserRegistrationController {
             @RequestBody @Valid AppUserLoginRequest request
             ){
         SampleResponse sampleResponse = appUserLoginService.registrationAppUser(request);
-        return new ResponseEntity<>(sampleResponse,HttpStatus.OK);
+        return ResponseMaking.makingResponse(sampleResponse);
+    }
+    @GetMapping("/get-all-user")
+    ResponseEntity<SampleResponse>  getAllUser(
+    ){
+        UserResponseRest userResponseRest = appUserLoginService.getAllUser();
+        return ResponseMaking.makingResponse(userResponseRest);
     }
 
 }

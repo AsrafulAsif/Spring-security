@@ -18,6 +18,8 @@ public class SecurityConfig {
                 .permitAll()
                 .requestMatchers("/api/v1/app-user/registration")
                 .permitAll()
+                .requestMatchers("/api/v1/app-user/get-all-user")
+                .permitAll()
                 .anyRequest()
                 .authenticated();
         return httpSecurity.build();

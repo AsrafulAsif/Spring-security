@@ -1,4 +1,4 @@
-package com.example.missyou.exeptionandler;
+package com.example.missyou.exeption;
 
 public class BadRequestException extends RuntimeException{
     public int statusCode;

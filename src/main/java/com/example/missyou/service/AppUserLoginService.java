@@ -1,28 +1,32 @@
 package com.example.missyou.service;
 
 import com.example.missyou.entity.AppUser;
-import com.example.missyou.exeptionandler.BadRequestException;
-import com.example.missyou.repository.AppUserLoginRepository;
+import com.example.missyou.exeption.BadRequestException;
+import com.example.missyou.repository.AppUserRepository;
 import com.example.missyou.request.AppUserLoginRequest;
 import com.example.missyou.response.SampleResponse;
+import com.example.missyou.response.AppUserResponse;
+import com.example.missyou.response.rest.UserResponseRest;
 import com.example.missyou.utils.ResponseMaking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
 public class AppUserLoginService {
-    private final AppUserLoginRepository appUserLoginRepository;
+    private final AppUserRepository appUserRepository;
 
     @Autowired
-    public AppUserLoginService(AppUserLoginRepository appUserLoginRepository) {
-        this.appUserLoginRepository = appUserLoginRepository;
+    public AppUserLoginService(AppUserRepository appUserLoginRepository) {
+        this.appUserRepository = appUserLoginRepository;
     }
 
     public SampleResponse registrationAppUser(AppUserLoginRequest request){
-        AppUser existAppuser = appUserLoginRepository.findByUserNameAndUserPhoneNumber(request.getUserName(),request.getUserPhoneNumber());
+        AppUser existAppuser = appUserRepository.findByUserNameAndUserPhoneNumber(request.getUserName(),request.getUserPhoneNumber());
         if (existAppuser!=null) throw new BadRequestException("User already exist.");
         AppUser appUser = AppUser.builder()
                 .userName(request.getUserName())
@@ -37,7 +41,14 @@ public class AppUserLoginService {
                 .fcmToken(request.getFcmToken())
                 .createdAt(new Date(System.currentTimeMillis()))
                 .build();
-        appUserLoginRepository.save(appUser);
+        appUserRepository.save(appUser);
         return ResponseMaking.makingSampleResponse("200","Registration Successful.");
+    }
+    public UserResponseRest getAllUser(){
+        List<AppUser> userResponseList = appUserRepository.findAll();
+        UserResponseRest userResponseRest = new UserResponseRest();
+        List<AppUserResponse> orderResponses = userResponseList.stream().map(AppUserResponse::new).collect(Collectors.toList());
+        userResponseRest.setUserResponse(orderResponses);
+        return userResponseRest ;
     }
 }

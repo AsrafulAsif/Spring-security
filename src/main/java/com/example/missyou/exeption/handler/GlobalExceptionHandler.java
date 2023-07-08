@@ -1,7 +1,8 @@
-package com.example.missyou.exeptionandler;
+package com.example.missyou.exeption.handler;
 
-import com.example.missyou.dto.error.InvalidInputErrorResponseREST;
-import com.example.missyou.response.SimpleErrorResponse;
+import com.example.missyou.response.error.InvalidInputErrorResponse;
+import com.example.missyou.exeption.BadRequestException;
+import com.example.missyou.response.error.SimpleErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,7 +19,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public InvalidInputErrorResponseREST handleRequestParameterException(MethodArgumentNotValidException e) {
+    public InvalidInputErrorResponse handleRequestParameterException(MethodArgumentNotValidException e) {
         String message = "Invalid inputs";
         Integer statusCode = HttpStatus.BAD_REQUEST.value();
 
@@ -29,7 +30,7 @@ public class GlobalExceptionHandler {
             errors.put(fieldName, errorMessage);
         });
 
-        return new InvalidInputErrorResponseREST(message, statusCode,errors);
+        return new InvalidInputErrorResponse(message, statusCode,errors);
     }
 
     @ExceptionHandler(BadRequestException.class)

@@ -1,4 +1,4 @@
-package com.example.missyou.response;
+package com.example.missyou.response.error;
 
 public class SimpleErrorResponse {
     public Integer status;
