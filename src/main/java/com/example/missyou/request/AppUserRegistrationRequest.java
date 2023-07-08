@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AppUserLoginRequest {
+public class AppUserRegistrationRequest {
     @NotNull(message = "User name can not e null.")
     @Size(min = 4, max = 30, message = "The length of full name must be between 4 and 30 characters.")
     private String userName;

@@ -1,7 +1,7 @@
 package com.example.missyou.controller.rest;
 
-import com.example.missyou.request.AppUserLoginRequest;
-import com.example.missyou.response.SampleResponse;
+import com.example.missyou.request.AppUserRegistrationRequest;
+import com.example.missyou.response.SimpleResponseRest;
 import com.example.missyou.response.rest.UserResponseRest;
 import com.example.missyou.service.AppUserLoginService;
 import com.example.missyou.utils.ResponseMaking;
@@ -23,14 +23,14 @@ public class AppUserController {
     }
 
     @PostMapping("/registration")
-    ResponseEntity<SampleResponse>  registrationAppUser(
-            @RequestBody @Valid AppUserLoginRequest request
+    ResponseEntity<SimpleResponseRest>  registrationAppUser(
+            @RequestBody @Valid AppUserRegistrationRequest request
             ){
-        SampleResponse sampleResponse = appUserLoginService.registrationAppUser(request);
-        return ResponseMaking.makingResponse(sampleResponse);
+        appUserLoginService.registrationAppUser(request);
+        return ResponseMaking.makingResponse();
     }
     @GetMapping("/get-all-user")
-    ResponseEntity<SampleResponse>  getAllUser(
+    ResponseEntity<SimpleResponseRest>getAllUser(
     ){
         UserResponseRest userResponseRest = appUserLoginService.getAllUser();
         return ResponseMaking.makingResponse(userResponseRest);

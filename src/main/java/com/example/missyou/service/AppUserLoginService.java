@@ -3,8 +3,8 @@ package com.example.missyou.service;
 import com.example.missyou.entity.AppUser;
 import com.example.missyou.exeption.BadRequestException;
 import com.example.missyou.repository.AppUserRepository;
-import com.example.missyou.request.AppUserLoginRequest;
-import com.example.missyou.response.SampleResponse;
+import com.example.missyou.request.AppUserRegistrationRequest;
+import com.example.missyou.response.SimpleResponseRest;
 import com.example.missyou.response.AppUserResponse;
 import com.example.missyou.response.rest.UserResponseRest;
 import com.example.missyou.utils.ResponseMaking;
@@ -25,7 +25,7 @@ public class AppUserLoginService {
         this.appUserRepository = appUserLoginRepository;
     }
 
-    public SampleResponse registrationAppUser(AppUserLoginRequest request){
+    public void registrationAppUser(AppUserRegistrationRequest request){
         AppUser existAppuser = appUserRepository.findByUserNameAndUserPhoneNumber(request.getUserName(),request.getUserPhoneNumber());
         if (existAppuser!=null) throw new BadRequestException("User already exist.");
         AppUser appUser = AppUser.builder()
@@ -42,13 +42,12 @@ public class AppUserLoginService {
                 .createdAt(new Date(System.currentTimeMillis()))
                 .build();
         appUserRepository.save(appUser);
-        return ResponseMaking.makingSampleResponse("200","Registration Successful.");
     }
     public UserResponseRest getAllUser(){
         List<AppUser> userResponseList = appUserRepository.findAll();
         UserResponseRest userResponseRest = new UserResponseRest();
-        List<AppUserResponse> orderResponses = userResponseList.stream().map(AppUserResponse::new).collect(Collectors.toList());
-        userResponseRest.setUserResponse(orderResponses);
+        List<AppUserResponse> appUserResponses = userResponseList.stream().map(AppUserResponse::new).collect(Collectors.toList());
+        userResponseRest.setUserResponse(appUserResponses);
         return userResponseRest ;
     }
 }
