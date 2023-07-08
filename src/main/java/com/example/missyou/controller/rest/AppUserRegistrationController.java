@@ -25,7 +25,7 @@ public class AppUserRegistrationController {
     ResponseEntity<SampleResponse>  registrationAppUser(
             @RequestBody @Valid AppUserLoginRequest request
             ){
-        SampleResponse sampleResponse = appUserLoginService.saveAppUser(request);
+        SampleResponse sampleResponse = appUserLoginService.registrationAppUser(request);
         return new ResponseEntity<>(sampleResponse,HttpStatus.OK);
     }
 

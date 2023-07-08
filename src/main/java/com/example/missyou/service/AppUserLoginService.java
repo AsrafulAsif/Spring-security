@@ -1,12 +1,15 @@
 package com.example.missyou.service;
 
 import com.example.missyou.entity.AppUser;
+import com.example.missyou.exeptionandler.BadRequestException;
 import com.example.missyou.repository.AppUserLoginRepository;
 import com.example.missyou.request.AppUserLoginRequest;
 import com.example.missyou.response.SampleResponse;
 import com.example.missyou.utils.ResponseMaking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 
 @Service
@@ -18,17 +21,23 @@ public class AppUserLoginService {
         this.appUserLoginRepository = appUserLoginRepository;
     }
 
-    public SampleResponse saveAppUser(AppUserLoginRequest request){
-        AppUser findingAppuser = appUserLoginRepository.findByUserNameAndPhoneNumber(request.getUsername(),request.getPhoneNumber());
-        if (findingAppuser!=null) return ResponseMaking.makingSampleResponse("200","User found");
+    public SampleResponse registrationAppUser(AppUserLoginRequest request){
+        AppUser existAppuser = appUserLoginRepository.findByUserNameAndUserPhoneNumber(request.getUserName(),request.getUserPhoneNumber());
+        if (existAppuser!=null) throw new BadRequestException("User already exist.");
         AppUser appUser = AppUser.builder()
-                .userName(request.getUsername())
-                .phoneNumber(request.getPhoneNumber())
-                .password(request.getPassword())
-                .firebaseFCMToken(request.getFirebaseFCMToken())
+                .userName(request.getUserName())
+                .userEmail(request.getUserEmail())
+                .userPhoneNumber(request.getUserPhoneNumber())
+                .userPassword(request.getUserPassword())
+                .userAddress(request.getUserAddress())
+                .userProfilePicture(request.getUserProfilePicture())
+                .gender(request.getGender())
+                .isActive(true)
+                .deviceType(request.getDeviceType())
+                .fcmToken(request.getFcmToken())
+                .createdAt(new Date(System.currentTimeMillis()))
                 .build();
         appUserLoginRepository.save(appUser);
-        SampleResponse sampleResponse = ResponseMaking.makingSampleResponse("200","saved");
-        return sampleResponse;
+        return ResponseMaking.makingSampleResponse("200","Registration Successful.");
     }
 }

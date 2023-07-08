@@ -1,6 +1,7 @@
 package com.example.missyou.exeptionandler;
 
 import com.example.missyou.dto.error.InvalidInputErrorResponseREST;
+import com.example.missyou.response.SimpleErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -29,6 +30,13 @@ public class GlobalExceptionHandler {
         });
 
         return new InvalidInputErrorResponseREST(message, statusCode,errors);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public SimpleErrorResponse handleBadRequestException(Exception e) {
+        return new SimpleErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value());
     }
 
 
