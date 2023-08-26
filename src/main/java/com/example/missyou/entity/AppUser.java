@@ -16,7 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @Document("app-user")
-public class AppUser {
+public class  AppUser {
     @Id
     private String id;
     private String userName;

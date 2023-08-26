@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 public class AppUserLoginService {
     private final AppUserRepository appUserRepository;
 
-    @Autowired
     public AppUserLoginService(AppUserRepository appUserLoginRepository) {
         this.appUserRepository = appUserLoginRepository;
     }
